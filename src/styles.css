@@ -1,0 +1,243 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-glow: var(--primary-glow);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-live: var(--live);
+  --font-display: "Inter", "SF Pro Display", system-ui, sans-serif;
+}
+
+:root {
+  --radius: 0.875rem;
+
+  /* TROLE — dark + orange premium palette */
+  --background: oklch(0.13 0.005 60);          /* near-black */
+  --foreground: oklch(0.98 0.005 80);          /* white */
+  --card: oklch(0.165 0.008 60);               /* dark gray surface */
+  --card-foreground: oklch(0.98 0.005 80);
+  --popover: oklch(0.165 0.008 60);
+  --popover-foreground: oklch(0.98 0.005 80);
+
+  --primary: oklch(0.72 0.19 49);              /* #ff7a00 orange */
+  --primary-foreground: oklch(0.13 0.005 60);
+  --primary-glow: oklch(0.78 0.17 55);
+
+  --secondary: oklch(0.21 0.01 60);
+  --secondary-foreground: oklch(0.98 0.005 80);
+  --muted: oklch(0.2 0.008 60);
+  --muted-foreground: oklch(0.65 0.015 70);
+  --accent: oklch(0.25 0.04 50);
+  --accent-foreground: oklch(0.98 0.005 80);
+  --destructive: oklch(0.65 0.22 25);
+  --destructive-foreground: oklch(0.98 0.005 80);
+  --border: oklch(1 0 0 / 8%);
+  --input: oklch(1 0 0 / 10%);
+  --ring: oklch(0.72 0.19 49 / 60%);
+  --live: oklch(0.65 0.22 25);
+
+  --gradient-hero: radial-gradient(
+      ellipse 100% 60% at 50% 0%,
+      color-mix(in oklab, var(--primary) 45%, transparent),
+      transparent 75%
+    ),
+    radial-gradient(
+      ellipse 90% 50% at 50% 50%,
+      color-mix(in oklab, var(--primary) 30%, transparent),
+      transparent 75%
+    ),
+    radial-gradient(
+      ellipse 100% 60% at 50% 100%,
+      color-mix(in oklab, var(--primary) 38%, transparent),
+      transparent 75%
+    ),
+    linear-gradient(180deg,
+      oklch(0.2 0.06 55),
+      oklch(0.16 0.05 55) 50%,
+      oklch(0.18 0.06 55));
+  --gradient-orange: linear-gradient(135deg, var(--primary), var(--primary-glow));
+  --shadow-glow: 0 0 80px -10px color-mix(in oklab, var(--primary) 60%, transparent);
+  --shadow-glow-sm: 0 0 24px -6px color-mix(in oklab, var(--primary) 55%, transparent);
+  --shadow-card: 0 8px 30px -10px oklch(0 0 0 / 0.5);
+}
+
+.dark {
+  /* same as root – this app is dark by default */
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html, body {
+    background-color: var(--color-background);
+    background-image: var(--gradient-hero);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: var(--color-foreground);
+    font-family: var(--font-display);
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+@layer utilities {
+  .text-gradient-orange {
+    background: var(--gradient-orange);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .bg-hero {
+    background: var(--gradient-hero);
+  }
+  .glass {
+    background-color: color-mix(in oklab, var(--background) 65%, transparent);
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .glow-orange {
+    box-shadow: var(--shadow-glow);
+  }
+  .glow-orange-sm {
+    box-shadow: var(--shadow-glow-sm);
+  }
+  .card-premium {
+    background: linear-gradient(180deg,
+      color-mix(in oklab, var(--card) 90%, transparent),
+      color-mix(in oklab, var(--card) 70%, transparent));
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-2xl);
+    transition: transform .35s ease, border-color .35s ease, box-shadow .35s ease;
+  }
+  .card-premium:hover {
+    transform: translateY(-3px);
+    border-color: color-mix(in oklab, var(--primary) 40%, var(--color-border));
+    box-shadow: var(--shadow-glow-sm);
+  }
+}
+
+@keyframes live-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--live) 70%, transparent); }
+  50% { box-shadow: 0 0 0 10px transparent; }
+}
+.animate-live-pulse { animation: live-pulse 1.6s ease-out infinite; }
+
+@keyframes float-glow {
+  0%, 100% { opacity: .55; transform: scale(1); }
+  50% { opacity: .9; transform: scale(1.04); }
+}
+.animate-float-glow { animation: float-glow 6s ease-in-out infinite; }
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up { animation: fade-in-up .7s ease-out both; }
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Smooth scroll across the site */
+html { scroll-behavior: smooth; }
+
+/* Themed scrollbar (right side, branded orange) */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) transparent;
+}
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-track {
+  background: color-mix(in oklab, var(--background) 80%, transparent);
+}
+*::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--primary), var(--primary-glow));
+  border-radius: 999px;
+  border: 2px solid var(--background);
+  box-shadow: 0 0 12px color-mix(in oklab, var(--primary) 60%, transparent);
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--primary-glow), var(--primary));
+}
+*::-webkit-scrollbar-corner { background: transparent; }
+
+/* Hover utilities */
+.hover-lift {
+  transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-glow-sm);
+}
+
+.hover-scale {
+  transition: transform .25s ease;
+}
+.hover-scale:hover { transform: scale(1.04); }
+
+.hover-glow {
+  transition: box-shadow .35s ease, transform .35s ease, color .25s ease;
+}
+.hover-glow:hover {
+  box-shadow: var(--shadow-glow-sm);
+  color: var(--foreground);
+}
+
+/* Animated underline link */
+.link-underline {
+  position: relative;
+}
+.link-underline::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -3px;
+  height: 2px; width: 100%;
+  background: var(--gradient-orange);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform .35s ease;
+}
+.link-underline:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Image tilt on hover */
+.tilt-on-hover {
+  transition: transform .5s cubic-bezier(.2,.7,.2,1);
+}
+.tilt-on-hover:hover {
+  transform: perspective(700px) rotateX(3deg) rotateY(-3deg) scale(1.03);
+}
